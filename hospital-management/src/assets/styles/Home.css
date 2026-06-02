@@ -1,0 +1,25 @@
+.hero{
+  min-height:90vh;
+  display:flex;
+  align-items:center;
+  background:#EAF4FF;
+}
+
+.hero h1{
+  font-size:55px;
+  font-weight:700;
+}
+
+.hero p{
+  margin:20px 0;
+  font-size:18px;
+}
+
+.feature-card{
+  transition:0.3s;
+  border:none;
+}
+
+.feature-card:hover{
+  transform:translateY(-10px);
+}
