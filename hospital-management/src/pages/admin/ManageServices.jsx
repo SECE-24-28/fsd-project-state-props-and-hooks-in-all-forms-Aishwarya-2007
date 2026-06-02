@@ -1,34 +1,100 @@
-import "../../assets/styles/ManageServices.css";
+import AdminLayout from "./AdminLayout";
 
 function ManageServices() {
   return (
-    <div className="services-container">
+    <AdminLayout>
 
-      <h2 className="page-title">Manage Services</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Manage Services</h2>
 
-      <div className="services-grid">
-
-        <div className="service-card">
-          <h3>Emergency Care</h3>
-          <p>24/7 emergency medical services</p>
-          <button className="edit-btn">Edit</button>
-        </div>
-
-        <div className="service-card">
-          <h3>Cardiology</h3>
-          <p>Heart-related treatments and surgeries</p>
-          <button className="edit-btn">Edit</button>
-        </div>
-
-        <div className="service-card">
-          <h3>Neurology</h3>
-          <p>Brain and nervous system care</p>
-          <button className="edit-btn">Edit</button>
-        </div>
-
+        <button className="btn btn-success">
+          + Add Service
+        </button>
       </div>
 
-    </div>
+      <table className="table table-bordered table-hover shadow-sm">
+
+        <thead className="table-primary">
+          <tr>
+            <th>ID</th>
+            <th>Service Name</th>
+            <th>Department</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>1</td>
+            <td>Heart Checkup</td>
+            <td>Cardiology</td>
+            <td>₹2500</td>
+            <td>
+              <button className="btn btn-primary btn-sm me-2">
+                Edit
+              </button>
+
+              <button className="btn btn-danger btn-sm">
+                Delete
+              </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td>2</td>
+            <td>General Consultation</td>
+            <td>General Medicine</td>
+            <td>₹500</td>
+            <td>
+              <button className="btn btn-primary btn-sm me-2">
+                Edit
+              </button>
+
+              <button className="btn btn-danger btn-sm">
+                Delete
+              </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td>3</td>
+            <td>MRI Scan</td>
+            <td>Radiology</td>
+            <td>₹4500</td>
+            <td>
+              <button className="btn btn-primary btn-sm me-2">
+                Edit
+              </button>
+
+              <button className="btn btn-danger btn-sm">
+                Delete
+              </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td>4</td>
+            <td>Blood Test</td>
+            <td>Laboratory</td>
+            <td>₹800</td>
+            <td>
+              <button className="btn btn-primary btn-sm me-2">
+                Edit
+              </button>
+
+              <button className="btn btn-danger btn-sm">
+                Delete
+              </button>
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </AdminLayout>
   );
 }
 

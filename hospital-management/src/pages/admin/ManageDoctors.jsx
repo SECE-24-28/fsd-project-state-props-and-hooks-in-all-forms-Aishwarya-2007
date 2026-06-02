@@ -1,4 +1,5 @@
 import "../../assets/styles/ManageDoctors.css";
+import { Link } from "react-router-dom";
 
 function ManageDoctors() {
 
@@ -21,9 +22,12 @@ function ManageDoctors() {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Manage Doctors</h2>
 
-        <button className="btn btn-primary">
-          Add Doctor
-        </button>
+        <Link
+  to="/add-doctor"
+  className="btn btn-success"
+>
+  + Add Doctor
+</Link>
       </div>
 
       <table className="table table-bordered table-hover bg-white">

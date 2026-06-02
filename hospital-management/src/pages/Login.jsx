@@ -1,9 +1,41 @@
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../assets/styles/Login.css";
 import { Link } from "react-router-dom";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [errors, setErrors] = useState({});
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let newErrors = {};
+
+    if (!emailRegex.test(email)) {
+      newErrors.email = "Enter a valid email address";
+    }
+
+    if (!passwordRegex.test(password)) {
+      newErrors.password =
+        "Password must contain uppercase, lowercase, number and special character";
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      alert("Login Successful");
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -15,21 +47,37 @@ function Login() {
             Login
           </h2>
 
-          <form>
+          <form onSubmit={handleSubmit}>
 
             <input
               type="email"
               className="form-control"
               placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
+
+            {errors.email && (
+              <small className="text-danger">
+                {errors.email}
+              </small>
+            )}
 
             <input
               type="password"
-              className="form-control"
+              className="form-control mt-3"
               placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
-            <div className="form-check mb-3">
+            {errors.password && (
+              <small className="text-danger">
+                {errors.password}
+              </small>
+            )}
+
+            <div className="form-check mb-3 mt-3">
               <input
                 type="checkbox"
                 className="form-check-input"

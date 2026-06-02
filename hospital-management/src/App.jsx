@@ -3,7 +3,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // 🌐 Layouts
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import AdminLayout from "./layouts/AdminLayout";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AddDoctor from "./pages/admin/AddDoctor";
+import AddPatient from "./pages/admin/AddPatient";
+import AdminProfile from "./pages/admin/AdminProfile";
+import DashboardCharts from "./pages/admin/DashboardCharts";
+import Reports from "./pages/admin/Reports";
+import Settings from "./pages/admin/Settings";
+import AdminLogout from "./pages/admin/AdminLogout";
+
 
 // Public Pages
 import Home from "./pages/Home";
@@ -31,7 +39,7 @@ function App() {
   return (
     <BrowserRouter>
       {/* 🌐 PUBLIC NAVBAR */}
-      <Navbar />
+      
 
       <Routes>
         {/* 🏠 PUBLIC ROUTES */}
@@ -64,7 +72,7 @@ function App() {
         <Route
           path="/managedoctors"
           element={
-            <AdminLayout>
+          <AdminLayout>
               <ManageDoctors />
             </AdminLayout>
           }
@@ -73,29 +81,66 @@ function App() {
         <Route
           path="/managepatients"
           element={
-            <AdminLayout>
+            
               <ManagePatients />
-            </AdminLayout>
+           
           }
         />
 
         <Route
           path="/manageappointments"
           element={
-            <AdminLayout>
+            
               <ManageAppointments />
-            </AdminLayout>
+            
           }
         />
 
         <Route
           path="/manageservices"
           element={
-            <AdminLayout>
+            
               <ManageServices />
-            </AdminLayout>
+            
           }
         />
+
+<Route
+  path="/adddoctor"
+  element={<AddDoctor />}
+ />
+
+<Route
+  path="/addpatient"
+  element={<AddPatient />}
+/>
+
+<Route
+  path="/adminprofile"
+  element={<AdminProfile />}
+/>
+
+<Route
+  path="/dashboardcharts"
+  element={<DashboardCharts />}
+/>
+
+
+<Route
+  path="/reports"
+  element={<Reports />}
+/>
+
+
+<Route
+  path="/settings"
+  element={<Settings />}
+/>
+
+<Route
+  path="/adminlogout"
+  element={<AdminLogout />}
+/>
 
         {/* ❌ 404 PAGE */}
         <Route
@@ -110,7 +155,7 @@ function App() {
       </Routes>
 
       {/* 🌐 FOOTER (PUBLIC ONLY STYLE - optional) */}
-      <Footer />
+    
     </BrowserRouter>
   );
 }

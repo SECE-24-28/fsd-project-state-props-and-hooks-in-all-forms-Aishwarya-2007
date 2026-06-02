@@ -3,31 +3,38 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function AdminLogin() {
-
   const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // simple frontend authentication
     if (username === "admin" && password === "admin123") {
 
-      // ✅ store login state (important for protected routes)
+      // Store login status
       localStorage.setItem("isAdminLoggedIn", "true");
+
+      // Store admin name
+      localStorage.setItem("adminName", username);
+
+      alert("Login Successful!");
 
       navigate("/dashboard");
 
     } else {
-      alert("Invalid credentials");
+      alert("Invalid Username or Password");
     }
   };
 
   return (
     <div className="login-container">
 
-      <form className="login-box" onSubmit={handleLogin}>
+      <form
+        className="login-box"
+        onSubmit={handleLogin}
+      >
 
         <h2>Admin Login</h2>
 
@@ -35,17 +42,25 @@ function AdminLogin() {
           type="text"
           placeholder="Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) =>
+            setUsername(e.target.value)
+          }
+          required
         />
 
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+          required
         />
 
-        <button type="submit">Login</button>
+        <button type="submit">
+          Login
+        </button>
 
       </form>
 
