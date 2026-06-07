@@ -11,15 +11,19 @@ function AdminLayout({ children }) {
           minHeight: "100vh",
           background: "#0d6efd",
           color: "white",
-          padding: "20px"
+          padding: "20px",
+          display: "flex",
+          flexDirection: "column"
         }}
       >
         <h3>MediCare Admin</h3>
 
         <hr />
 
-        <ul className="list-unstyled">
-
+        <ul
+          className="list-unstyled"
+          style={{ flex: 1 }}
+        >
           <li className="mb-3">
             <Link
               to="/dashboard"
@@ -38,14 +42,15 @@ function AdminLayout({ children }) {
             </Link>
           </li>
 
-         <li className="mb-3">
-  <Link
-    to="/managepatients"
-    className="text-white text-decoration-none"
-  >
-    Manage Patients
-  </Link>
-</li>
+          <li className="mb-3">
+            <Link
+              to="/managepatients"
+              className="text-white text-decoration-none"
+            >
+              Manage Patients
+            </Link>
+          </li>
+
           <li className="mb-3">
             <Link
               to="/manageappointments"
@@ -57,60 +62,56 @@ function AdminLayout({ children }) {
 
           <li className="mb-3">
             <Link
-              to="/manage-services"
+              to="/manageservices"
               className="text-white text-decoration-none"
             >
               Services
             </Link>
           </li>
 
+          <li className="mb-3">
+            <Link
+              to="/adminprofile"
+              className="text-white text-decoration-none"
+            >
+              👤 Admin Profile
+            </Link>
+          </li>
 
-<li className="mb-3">
-  <Link
-    to="/adminprofile"
-    className="text-white text-decoration-none"
-  >
-    Admin Profile
-  </Link>
-</li>
+          <li className="mb-3">
+            <Link
+              to="/dashboardcharts"
+              className="text-white text-decoration-none"
+            >
+              📊 Analytics
+            </Link>
+          </li>
 
-<li className="mb-3">
-  <Link
-    to="/dashboardcharts"
-    className="text-white text-decoration-none"
-  >
-    Analytics
-  </Link>
-</li>
+          <li className="mb-3">
+            <Link
+              to="/reports"
+              className="text-white text-decoration-none"
+            >
+              📄 Reports
+            </Link>
+          </li>
 
-
-<li className="mb-3">
-  <Link
-    to="/reports"
-    className="text-white text-decoration-none"
-  >
-    Reports
-  </Link>
-</li>
-
-<li className="mb-3">
-  <Link
-    to="/settings"
-    className="text-white text-decoration-none"
-  >
-    Settings
-  </Link>
-</li>
-
-<li className="mb-3">
-  <Link
-    to="/adminlogout"
-    className="text-white text-decoration-none"
-  >
-    Logout
-  </Link>
-</li>
+          <li className="mb-3">
+            <Link
+              to="/settings"
+              className="text-white text-decoration-none"
+            >
+              ⚙ Settings
+            </Link>
+          </li>
         </ul>
+
+        <Link
+          to="/adminlogout"
+          className="btn btn-light"
+        >
+          🚪 Logout
+        </Link>
 
       </div>
 

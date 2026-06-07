@@ -1,0 +1,16 @@
+.terms-hero{
+    background:#EAF4FF;
+    padding:80px 0;
+    text-align:center;
+}
+
+.terms-content{
+    padding:60px 0;
+}
+
+.terms-card{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}

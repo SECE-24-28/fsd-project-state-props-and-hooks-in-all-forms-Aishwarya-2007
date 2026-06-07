@@ -1,80 +1,93 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import AdminLayout from "./AdminLayout";
+import "../../assets/styles/Reports.css";
 
 function Reports() {
+  const [stats, setStats] = useState({
+    totalDoctors: 0,
+    totalPatients: 0,
+    totalAppointments: 0,
+  });
+
+  const fetchStats = async () => {
+    try {
+      const res = await axios.get(
+        "https://medicalcare-backend-1.onrender.com/api/dashboard"
+      );
+
+      setStats(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
   return (
     <AdminLayout>
+      <div className="reports-container">
 
-      <h2 className="mb-4">
-        Hospital Reports
-      </h2>
+        <div className="reports-header">
+          <h2>Hospital Reports</h2>
 
-      <div className="row">
-
-        <div className="col-md-4 mb-4">
-          <div className="card shadow p-4 text-center">
-            <h3>250</h3>
-            <p>Total Patients</p>
-          </div>
+          <button
+            className="print-btn"
+            onClick={() => window.print()}
+          >
+            Print Report
+          </button>
         </div>
 
-        <div className="col-md-4 mb-4">
-          <div className="card shadow p-4 text-center">
-            <h3>120</h3>
-            <p>Total Appointments</p>
+        <div className="reports-grid">
+
+          <div className="report-card">
+            <h3>Total Doctors</h3>
+            <p>{stats.totalDoctors}</p>
           </div>
+
+          <div className="report-card">
+            <h3>Total Patients</h3>
+            <p>{stats.totalPatients}</p>
+          </div>
+
+          <div className="report-card">
+            <h3>Total Appointments</h3>
+            <p>{stats.totalAppointments}</p>
+          </div>
+
         </div>
 
-        <div className="col-md-4 mb-4">
-          <div className="card shadow p-4 text-center">
-            <h3>10</h3>
-            <p>Total Doctors</p>
-          </div>
+        <div className="report-summary">
+
+          <h3>Hospital Summary</h3>
+
+          <table>
+            <tbody>
+
+              <tr>
+                <td>Total Doctors</td>
+                <td>{stats.totalDoctors}</td>
+              </tr>
+
+              <tr>
+                <td>Total Patients</td>
+                <td>{stats.totalPatients}</td>
+              </tr>
+
+              <tr>
+                <td>Total Appointments</td>
+                <td>{stats.totalAppointments}</td>
+              </tr>
+
+            </tbody>
+          </table>
+
         </div>
 
       </div>
-
-      <div className="card shadow p-4">
-
-        <h4>Monthly Report</h4>
-
-        <table className="table table-bordered mt-3">
-
-          <thead className="table-primary">
-            <tr>
-              <th>Month</th>
-              <th>Patients</th>
-              <th>Appointments</th>
-              <th>Revenue</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>January</td>
-              <td>120</td>
-              <td>80</td>
-              <td>₹1,20,000</td>
-            </tr>
-
-            <tr>
-              <td>February</td>
-              <td>150</td>
-              <td>100</td>
-              <td>₹1,50,000</td>
-            </tr>
-
-            <tr>
-              <td>March</td>
-              <td>180</td>
-              <td>140</td>
-              <td>₹2,10,000</td>
-            </tr>
-          </tbody>
-
-        </table>
-
-      </div>
-
     </AdminLayout>
   );
 }

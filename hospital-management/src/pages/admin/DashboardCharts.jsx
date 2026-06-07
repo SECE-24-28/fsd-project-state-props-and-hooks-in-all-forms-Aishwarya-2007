@@ -1,79 +1,82 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import AdminLayout from "./AdminLayout";
-import {
-  Bar,
-  Pie
-} from "react-chartjs-2";
 
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
-  ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from "chart.js";
+
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  ArcElement,
   Title,
   Tooltip,
   Legend
 );
 
 function DashboardCharts() {
-  const patientData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May"],
-    datasets: [
-      {
-        label: "Patients",
-        data: [120, 190, 150, 220, 280]
-      }
-    ]
+  const [stats, setStats] = useState({
+    totalDoctors: 0,
+    totalPatients: 0,
+    totalAppointments: 0,
+  });
+
+  const fetchStats = async () => {
+    try {
+      const res = await axios.get(
+        "https://medicalcare-backend-1.onrender.com/api/dashboard"
+      );
+
+      setStats(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const appointmentData = {
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const data = {
     labels: [
-      "Confirmed",
-      "Pending",
-      "Completed"
+      "Doctors",
+      "Patients",
+      "Appointments",
     ],
     datasets: [
       {
-        data: [50, 20, 80]
-      }
-    ]
+        label: "Hospital Analytics",
+        data: [
+          stats.totalDoctors,
+          stats.totalPatients,
+          stats.totalAppointments,
+        ],
+      },
+    ],
   };
 
   return (
     <AdminLayout>
+      <div className="container">
 
-      <h2 className="mb-4">
-        Dashboard Analytics
-      </h2>
+        <h2 className="mb-4">
+          Analytics Dashboard
+        </h2>
 
-      <div className="row">
-
-        <div className="col-md-7">
-          <div className="card p-3 shadow">
-            <h5>Monthly Patients</h5>
-            <Bar data={patientData} />
-          </div>
-        </div>
-
-        <div className="col-md-5">
-          <div className="card p-3 shadow">
-            <h5>Appointments Status</h5>
-            <Pie data={appointmentData} />
-          </div>
+        <div className="card p-4 shadow">
+          <Bar data={data} />
         </div>
 
       </div>
-
     </AdminLayout>
   );
 }

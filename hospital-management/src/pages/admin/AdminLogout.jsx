@@ -2,33 +2,17 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function AdminLogout() {
-
   const navigate = useNavigate();
 
   useEffect(() => {
+    sessionStorage.clear();
 
-    localStorage.removeItem("isAdminLoggedIn");
-    localStorage.removeItem("adminName");
+    alert("Logged Out Successfully");
 
-    setTimeout(() => {
-      navigate("/admin-login");
-    }, 1000);
+    navigate("/login");
+  }, []);
 
-  }, [navigate]);
-
-  return (
-    <div className="container text-center mt-5">
-
-      <h2>
-        Logging Out...
-      </h2>
-
-      <p>
-        Redirecting to Login Page
-      </p>
-
-    </div>
-  );
+  return null;
 }
 
 export default AdminLogout;

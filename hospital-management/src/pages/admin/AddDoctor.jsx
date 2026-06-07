@@ -1,120 +1,113 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import AdminLayout from "./AdminLayout";
 
 function AddDoctor() {
-  const [doctor, setDoctor] = useState({
-    name: "",
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     specialization: "",
     experience: "",
     phone: "",
-    email: ""
+    email: "",
+    qualification: "",
   });
 
   const handleChange = (e) => {
-    setDoctor({
-      ...doctor,
-      [e.target.name]: e.target.value
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    alert("Doctor Added Successfully!");
+    try {
+      await axios.post(
+        "https://medicalcare-backend-1.onrender.com/api/doctors",
+        formData
+      );
 
-    setDoctor({
-      name: "",
-      specialization: "",
-      experience: "",
-      phone: "",
-      email: ""
-    });
+      alert("Doctor Added Successfully");
+      navigate("/managedoctors");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to add doctor");
+    }
   };
 
   return (
     <AdminLayout>
+      <div className="container mt-4">
+        <h2>Add Doctor</h2>
 
-      <h2 className="mb-4">Add Doctor</h2>
-
-      <form
-        onSubmit={handleSubmit}
-        className="card p-4 shadow"
-      >
-
-        <div className="mb-3">
-          <label>Doctor Name</label>
-
+        <form onSubmit={handleSubmit}>
           <input
-            type="text"
-            name="name"
-            className="form-control"
-            value={doctor.name}
+            name="firstName"
+            placeholder="First Name"
+            className="form-control mb-2"
             onChange={handleChange}
             required
           />
-        </div>
-
-        <div className="mb-3">
-          <label>Specialization</label>
 
           <input
-            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            className="form-control mb-2"
+            onChange={handleChange}
+            required
+          />
+
+          <input
             name="specialization"
-            className="form-control"
-            value={doctor.specialization}
+            placeholder="Specialization"
+            className="form-control mb-2"
             onChange={handleChange}
             required
           />
-        </div>
-
-        <div className="mb-3">
-          <label>Experience</label>
 
           <input
-            type="text"
             name="experience"
-            className="form-control"
-            value={doctor.experience}
+            type="number"
+            placeholder="Experience (years)"
+            className="form-control mb-2"
             onChange={handleChange}
             required
           />
-        </div>
-
-        <div className="mb-3">
-          <label>Phone</label>
 
           <input
-            type="tel"
             name="phone"
-            className="form-control"
-            value={doctor.phone}
+            placeholder="Phone"
+            className="form-control mb-2"
             onChange={handleChange}
             required
           />
-        </div>
-
-        <div className="mb-3">
-          <label>Email</label>
 
           <input
-            type="email"
             name="email"
-            className="form-control"
-            value={doctor.email}
+            placeholder="Email"
+            className="form-control mb-2"
             onChange={handleChange}
             required
           />
-        </div>
 
-        <button
-          type="submit"
-          className="btn btn-success"
-        >
-          Add Doctor
-        </button>
+          <input
+            name="qualification"
+            placeholder="Qualification"
+            className="form-control mb-2"
+            onChange={handleChange}
+            required
+          />
 
-      </form>
-
+          <button className="btn btn-success">
+            Add Doctor
+          </button>
+        </form>
+      </div>
     </AdminLayout>
   );
 }

@@ -1,14 +1,77 @@
 import "../../assets/styles/Dashboard.css";
 import { Link, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+import { Bar } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function Dashboard() {
+  const token = sessionStorage.getItem("token");
 
-  const isAdminLoggedIn =
-    localStorage.getItem("isAdminLoggedIn");
-
-  if (!isAdminLoggedIn) {
-    return <Navigate to="/admin-login" />;
+  if (!token) {
+    return <Navigate to="/login" />;
   }
+
+  const [stats, setStats] = useState({
+    totalDoctors: 0,
+    totalPatients: 0,
+    totalAppointments: 0,
+  });
+
+  const fetchDashboardStats = async () => {
+    try {
+      const res = await axios.get(
+        "https://medicalcare-backend-1.onrender.com/api/dashboard"
+      );
+
+      setStats(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardStats();
+  }, []);
+
+  const chartData = {
+    labels: [
+      "Doctors",
+      "Patients",
+      "Appointments",
+    ],
+
+    datasets: [
+      {
+        label: "Hospital Statistics",
+
+        data: [
+          stats.totalDoctors,
+          stats.totalPatients,
+          stats.totalAppointments,
+        ],
+      },
+    ],
+  };
 
   return (
     <div className="dashboard-container">
@@ -19,31 +82,24 @@ function Dashboard() {
 
       <div className="row g-4">
 
-        <div className="col-md-3">
+        <div className="col-md-4">
           <div className="dashboard-card">
-            <h2>10</h2>
+            <h2>{stats.totalDoctors}</h2>
             <p>Total Doctors</p>
           </div>
         </div>
 
-        <div className="col-md-3">
+        <div className="col-md-4">
           <div className="dashboard-card">
-            <h2>250</h2>
+            <h2>{stats.totalPatients}</h2>
             <p>Total Patients</p>
           </div>
         </div>
 
-        <div className="col-md-3">
+        <div className="col-md-4">
           <div className="dashboard-card">
-            <h2>120</h2>
-            <p>Appointments</p>
-          </div>
-        </div>
-
-        <div className="col-md-3">
-          <div className="dashboard-card">
-            <h2>8</h2>
-            <p>Services</p>
+            <h2>{stats.totalAppointments}</h2>
+            <p>Total Appointments</p>
           </div>
         </div>
 
@@ -53,7 +109,7 @@ function Dashboard() {
 
         <div className="col-md-3 mb-3">
           <Link
-            to="/manage-doctors"
+            to="/managedoctors"
             className="btn btn-primary w-100"
           >
             Manage Doctors
@@ -62,7 +118,7 @@ function Dashboard() {
 
         <div className="col-md-3 mb-3">
           <Link
-            to="/manage-patients"
+            to="/managepatients"
             className="btn btn-success w-100"
           >
             Manage Patients
@@ -71,93 +127,24 @@ function Dashboard() {
 
         <div className="col-md-3 mb-3">
           <Link
-            to="/manage-appointments"
+            to="/manageappointments"
             className="btn btn-warning w-100"
           >
             Manage Appointments
           </Link>
         </div>
 
-        <div className="col-md-3 mb-3">
-          <Link
-            to="/manage-services"
-            className="btn btn-info w-100"
-          >
-            Manage Services
-          </Link>
-        </div>
-
       </div>
 
-      <div className="row mt-5">
+      {/* Dashboard Chart */}
 
-        <div className="col-md-6">
-          <div className="dashboard-card">
+      <div className="card mt-5 p-4 shadow">
 
-            <h4>Recent Appointments</h4>
+        <h3 className="mb-4">
+          Hospital Analytics
+        </h3>
 
-            <table className="table mt-3">
-
-              <thead>
-                <tr>
-                  <th>Patient</th>
-                  <th>Doctor</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td>Rahul</td>
-                  <td>Dr. Emily Carter</td>
-                  <td>Confirmed</td>
-                </tr>
-
-                <tr>
-                  <td>Priya</td>
-                  <td>Dr. Michael Smith</td>
-                  <td>Pending</td>
-                </tr>
-
-                <tr>
-                  <td>Arjun</td>
-                  <td>Dr. Olivia Wilson</td>
-                  <td>Completed</td>
-                </tr>
-              </tbody>
-
-            </table>
-
-          </div>
-        </div>
-
-        <div className="col-md-6">
-          <div className="dashboard-card">
-
-            <h4>Hospital Summary</h4>
-
-            <ul className="list-group mt-3">
-
-              <li className="list-group-item">
-                Emergency Cases Today: 15
-              </li>
-
-              <li className="list-group-item">
-                Available Doctors: 10
-              </li>
-
-              <li className="list-group-item">
-                Beds Available: 42
-              </li>
-
-              <li className="list-group-item">
-                ICU Occupancy: 80%
-              </li>
-
-            </ul>
-
-          </div>
-        </div>
+        <Bar data={chartData} />
 
       </div>
 

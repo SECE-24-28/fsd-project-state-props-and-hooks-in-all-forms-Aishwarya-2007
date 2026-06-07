@@ -1,31 +1,89 @@
 .services-container {
-  padding: 20px;
-  background: #f4f7fb;
-  min-height: 100vh;
+  padding: 30px;
 }
 
-.page-title {
+.services-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+.add-btn {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.service-card {
+.services-table {
+  width: 100%;
+  border-collapse: collapse;
   background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.services-table th {
+  background: #dbeafe;
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.services-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
 }
 
 .edit-btn {
-  margin-top: 10px;
-  background: #007bff;
+  background: #2563eb;
   color: white;
   border: none;
-  padding: 6px 10px;
+  padding: 8px 12px;
+  margin-right: 8px;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.service-form {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.service-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.save-btn {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+}
+
+.cancel-btn {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
 }

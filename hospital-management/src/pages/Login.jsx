@@ -3,8 +3,11 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../assets/styles/Login.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,26 +18,57 @@ function Login() {
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    let newErrors = {};
+  let newErrors = {};
 
-    if (!emailRegex.test(email)) {
-      newErrors.email = "Enter a valid email address";
-    }
+  if (!emailRegex.test(email)) {
+    newErrors.email = "Enter a valid email address";
+  }
 
-    if (!passwordRegex.test(password)) {
-      newErrors.password =
-        "Password must contain uppercase, lowercase, number and special character";
-    }
+  if (!password) {
+    newErrors.password = "Password is required";
+  }
 
-    setErrors(newErrors);
+  setErrors(newErrors);
 
-    if (Object.keys(newErrors).length === 0) {
+  if (Object.keys(newErrors).length === 0) {
+    try {
+      const response = await axios.post(
+        "https://medicalcare-backend-1.onrender.com/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      sessionStorage.setItem(
+        "token",
+        response.data.token
+      );
+
+      sessionStorage.setItem(
+        "role",
+        response.data.user.role
+      );
+
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify(response.data.user)
+      );
+
       alert("Login Successful");
+
+      navigate("/dashboard");
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+          "Login Failed"
+      );
     }
-  };
+  }
+};
 
   return (
     <>

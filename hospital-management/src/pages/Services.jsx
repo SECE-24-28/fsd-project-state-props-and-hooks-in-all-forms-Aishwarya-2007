@@ -1,103 +1,161 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import "../assets/styles/Services.css";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-import {
-  FaHeartbeat,
-  FaBrain,
-  FaBone,
-  FaTooth,
-  FaChild,
-  FaAmbulance
-} from "react-icons/fa";
+const Services = () => {
+  const [services, setServices] = useState([]);
 
-function Services() {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+
+  const [editingId, setEditingId] = useState(null);
+
+  const API = "https://medicalcare-backend-1.onrender.com/api/services";
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const fetchServices = async () => {
+    try {
+      const res = await axios.get(API);
+      setServices(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (editingId) {
+        await axios.put(`${API}/${editingId}`, {
+          name,
+          description,
+          price,
+        });
+
+        alert("Service Updated Successfully");
+      } else {
+        await axios.post(API, {
+          name,
+          description,
+          price,
+        });
+
+        alert("Service Added Successfully");
+      }
+
+      setName("");
+      setDescription("");
+      setPrice("");
+      setEditingId(null);
+
+      fetchServices();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEdit = (service) => {
+    setName(service.name);
+    setDescription(service.description);
+    setPrice(service.price);
+    setEditingId(service._id);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Delete this service?")) {
+      await axios.delete(`${API}/${id}`);
+
+      fetchServices();
+    }
+  };
+
   return (
-    <>
-      <Navbar />
+    <div style={{ padding: "20px" }}>
+      <h2>Hospital Services</h2>
 
-      {/* Hero Section */}
-      <section className="services-hero">
-        <div className="container">
-          <h1>Our Medical Services</h1>
-          <p className="lead">
-            Comprehensive healthcare services for you and your family.
-          </p>
-        </div>
-      </section>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Service Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
 
-      {/* Services Grid */}
-      <section className="container py-5">
+        <br />
+        <br />
 
-        <div className="row g-4">
+        <input
+          type="text"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
 
-          <div className="col-md-4">
-            <div className="service-card">
-              <FaHeartbeat className="service-icon"/>
-              <h4>Cardiology</h4>
-              <p>
-                Heart care, diagnosis and treatment from expert cardiologists.
-              </p>
-            </div>
-          </div>
+        <br />
+        <br />
 
-          <div className="col-md-4">
-            <div className="service-card">
-              <FaBrain className="service-icon"/>
-              <h4>Neurology</h4>
-              <p>
-                Advanced treatment for brain and nervous system disorders.
-              </p>
-            </div>
-          </div>
+        <input
+          type="number"
+          placeholder="Price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          required
+        />
 
-          <div className="col-md-4">
-            <div className="service-card">
-              <FaBone className="service-icon"/>
-              <h4>Orthopedics</h4>
-              <p>
-                Specialized care for bones, joints, and muscles.
-              </p>
-            </div>
-          </div>
+        <br />
+        <br />
 
-          <div className="col-md-4">
-            <div className="service-card">
-              <FaChild className="service-icon"/>
-              <h4>Pediatrics</h4>
-              <p>
-                Dedicated healthcare services for infants and children.
-              </p>
-            </div>
-          </div>
+        <button type="submit">
+          {editingId ? "Update Service" : "Add Service"}
+        </button>
+      </form>
 
-          <div className="col-md-4">
-            <div className="service-card">
-              <FaTooth className="service-icon"/>
-              <h4>Dental Care</h4>
-              <p>
-                Complete oral healthcare and dental treatments.
-              </p>
-            </div>
-          </div>
+      <br />
 
-          <div className="col-md-4">
-            <div className="service-card">
-              <FaAmbulance className="service-icon"/>
-              <h4>Emergency Care</h4>
-              <p>
-                24/7 emergency services with rapid response teams.
-              </p>
-            </div>
-          </div>
+      <table border="1" cellPadding="10">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-        </div>
+        <tbody>
+          {services.map((service) => (
+            <tr key={service._id}>
+              <td>{service.name}</td>
+              <td>{service.description}</td>
+              <td>₹{service.price}</td>
 
-      </section>
+              <td>
+                <button
+                  onClick={() => handleEdit(service)}
+                >
+                  Edit
+                </button>
 
-      <Footer />
-    </>
+                <button
+                  onClick={() =>
+                    handleDelete(service._id)
+                  }
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
-}
+};
 
 export default Services;

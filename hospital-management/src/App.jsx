@@ -6,6 +6,12 @@ import Footer from "./components/Footer";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AddDoctor from "./pages/admin/AddDoctor";
 import AddPatient from "./pages/admin/AddPatient";
+import EditPatient from "./pages/admin/EditPatient";
+import EditDoctor from "./pages/admin/EditDoctor";
+
+import AddAppointment from "./pages/admin/AddAppointment";
+import EditAppointment from "./pages/admin/EditAppointment";
+
 import AdminProfile from "./pages/admin/AdminProfile";
 import DashboardCharts from "./pages/admin/DashboardCharts";
 import Reports from "./pages/admin/Reports";
@@ -113,6 +119,35 @@ function App() {
 <Route
   path="/addpatient"
   element={<AddPatient />}
+/>
+
+<Route
+  path="/editpatient/:id"
+  element={<EditPatient />}
+/>
+
+<Route
+  path="/managedoctors"
+  element={<ManageDoctors />}
+/>
+
+<Route 
+path="/adddoctor" 
+element={<AddDoctor />} />
+
+<Route
+  path="/editdoctor/:id"
+  element={<EditDoctor />}
+/>
+
+<Route
+  path="/addappointment"
+  element={<AddAppointment />}
+/>
+
+<Route
+  path="/editappointment/:id"
+  element={<EditAppointment />}
 />
 
 <Route
